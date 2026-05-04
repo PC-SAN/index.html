@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Mes, Amor de mi Vida</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red-bright: #ff0000;
+            --red-dark: #8b0000;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #000;
+            color: white;
+            overflow-x: hidden;
+            margin: 0;
+            cursor: crosshair;
+        }
+
+        .romantic-title {
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 0 0 15px var(--red-bright), 0 0 30px var(--red-dark);
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            from { text-shadow: 0 0 15px var(--red-bright); transform: scale(1); }
+            to { text-shadow: 0 0 35px var(--red-bright), 0 0 50px #ff4d4d; transform: scale(1.02); }
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .content-layer {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Pingüinos Animados */
+        .penguin-container {
+            position: fixed;
+            bottom: 10px;
+            width: 80px;
+            height: 80px;
+            z-index: 100;
+            pointer-events: none;
+        }
+        .penguin-left { left: 15px; animation: waddle 1.5s infinite ease-in-out; }
+        .penguin-right { right: 15px; animation: waddle 1.5s infinite ease-in-out reverse; }
+
+        @keyframes waddle {
+            0%, 100% { transform: rotate(-5deg) translateY(0); }
+            50% { transform: rotate(5deg) translateY(-8px); }
+        }
+
+        .glass-card {
+            background: rgba(139, 0, 0, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 0, 0, 0.4);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+            border-radius: 2rem;
+        }
+
+        .photo-frame {
+            background: white;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.4);
+            color: #222;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .photo-frame:hover {
+            transform: scale(1.08) rotate(0deg);
+            z-index: 20;
+        }
+
+        .btn-drive {
+            background: linear-gradient(45deg, #ff0000, #b91c1c);
+            box-shadow: 0 0 15px var(--red-bright);
+            transition: all 0.3s;
+        }
+
+        .btn-drive:hover {
+            box-shadow: 0 0 35px var(--red-bright);
+            transform: scale(1.05);
+        }
+
+        .floating-heart {
+            position: fixed;
+            color: #ff0000;
+            pointer-events: none;
+            z-index: 5;
+            animation: floatUp 5s linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1.5) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="fireworksCanvas"></canvas>
+
+    <!-- Pingüinos (SVG) -->
+    <div class="penguin-container penguin-left">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="50" cy="55" rx="30" ry="40" fill="#222"/>
+            <ellipse cx="50" cy="60" rx="20" ry="30" fill="white"/>
+            <circle cx="40" cy="35" r="5" fill="white"/><circle cx="60" cy="35" r="5" fill="white"/>
+            <circle cx="40" cy="35" r="2" fill="black"/><circle cx="60" cy="35" r="2" fill="black"/>
+            <path d="M45 45 L50 50 L55 45 Z" fill="#FFA500"/>
+            <path d="M30 85 Q40 90 50 85 M70 85 Q60 90 50 85" stroke="#FFA500" stroke-width="6" fill="none" stroke-linecap="round"/>
+        </svg>
+    </div>
+    <div class="penguin-container penguin-right">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="transform: scaleX(-1);">
+            <ellipse cx="50" cy="55" rx="30" ry="40" fill="#222"/>
+            <ellipse cx="50" cy="60" rx="20" ry="30" fill="white"/>
+            <circle cx="40" cy="35" r="5" fill="white"/><circle cx="60" cy="35" r="5" fill="white"/>
+            <circle cx="40" cy="35" r="2" fill="black"/><circle cx="60" cy="35" r="2" fill="black"/>
+            <path d="M45 45 L50 50 L55 45 Z" fill="#FFA500"/>
+            <path d="M30 85 Q40 90 50 85 M70 85 Q60 90 50 85" stroke="#FFA500" stroke-width="6" fill="none" stroke-linecap="round"/>
+        </svg>
+    </div>
+
+    <div class="content-layer">
+        <!-- Presentación -->
+        <header class="min-h-screen flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-red-900/20 to-transparent">
+            <div class="mb-4 text-6xl animate-pulse">❤️</div>
+            <h1 class="romantic-title text-6xl md:text-9xl text-white mb-6">
+                Feliz Mes,<br>Amor de mi Vida
+            </h1>
+            <p class="text-xl md:text-3xl text-red-200 italic max-w-3xl leading-relaxed px-4">
+                "Nunca esperé que fueras tanto pero te convertiste en mi todo, todo lo que deseo es una vida a tu lado."
+            </p>
+            <div class="mt-16 flex flex-col items-center">
+                <span class="text-red-500 font-bold tracking-widest uppercase text-sm mb-2">Desliza mi amor</span>
+                <div class="w-1 h-12 bg-gradient-to-b from-red-500 to-transparent rounded-full animate-bounce"></div>
+            </div>
+        </header>
+
+        <!-- Contador -->
+        <section class="py-20 px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="romantic-title text-4xl text-red-500 mb-10">Nuestro Tiempo Juntos</h2>
+                <div id="timer" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="glass-card p-6 border-red-500/50">
+                        <span id="days" class="block text-5xl font-bold text-white">0</span>
+                        <span class="text-red-400 uppercase text-xs font-bold">Días</span>
+                    </div>
+                    <div class="glass-card p-6 border-red-500/50">
+                        <span id="hours" class="block text-5xl font-bold text-white">0</span>
+                        <span class="text-red-400 uppercase text-xs font-bold">Horas</span>
+                    </div>
+                    <div class="glass-card p-6 border-red-500/50">
+                        <span id="minutes" class="block text-5xl font-bold text-white">0</span>
+                        <span class="text-red-400 uppercase text-xs font-bold">Minutos</span>
+                    </div>
+                    <div class="glass-card p-6 border-red-500/50">
+                        <span id="seconds" class="block text-5xl font-bold text-white">0</span>
+                        <span class="text-red-400 uppercase text-xs font-bold">Segundos</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Galería y Drive -->
+        <section class="py-20 px-6">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="romantic-title text-4xl text-center text-red-500 mb-12">Nuestros Momentos</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                    <div class="photo-frame transform -rotate-3">
+                        <div class="aspect-[4/5] bg-neutral-900 overflow-hidden mb-2">
+                            <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=400" alt="Foto 1" class="w-full h-full object-cover">
+                        </div>
+                        <p class="text-center font-bold italic">Tú y Yo</p>
+                    </div>
+                    <div class="photo-frame transform rotate-2 mt-6">
+                        <div class="aspect-[4/5] bg-neutral-900 overflow-hidden mb-2">
+                            <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?q=80&w=400" alt="Foto 2" class="w-full h-full object-cover">
+                        </div>
+                        <p class="text-center font-bold italic">Cada segundo vale</p>
+                    </div>
+                    <div class="photo-frame transform -rotate-1">
+                        <div class="aspect-[4/5] bg-neutral-900 overflow-hidden mb-2">
+                            <img src="https://images.unsplash.com/photo-1516589174184-c68526674fd4?q=80&w=400" alt="Foto 3" class="w-full h-full object-cover">
+                        </div>
+                        <p class="text-center font-bold italic">Mi felicidad</p>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-red-200 mb-6 font-medium">He guardado todos nuestros recuerdos aquí:</p>
+                    <a href="TU_LINK_DE_DRIVE_AQUI" target="_blank" class="btn-drive inline-flex items-center px-10 py-5 rounded-full text-white font-bold text-xl">
+                        <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M7.71 3.5L1.15 15l3.43 6 6.55-11.5M9.73 15L6.3 21h13.12l3.43-6M18.74 15L12.15 3.5 8.72 9.5 15.3 21"/></svg>
+                        Nuestras Fotos en Drive
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final -->
+        <section class="py-20 px-6 text-center">
+            <div class="max-w-3xl mx-auto glass-card p-10 md:p-16">
+                <h2 class="romantic-title text-5xl text-red-500 mb-6">Mi Princesa Favorita</h2>
+                <p class="text-2xl text-red-50 md:leading-relaxed italic mb-8">
+                    "Y también voy a estar para ti siempre, en cada paso y en cada sueño. Eres lo mejor de mi vida."
+                </p>
+                <div class="text-4xl">👑💖</div>
+            </div>
+        </section>
+
+        <footer class="py-12 text-center text-red-900 font-bold bg-black border-t border-red-900/20">
+            <p class="text-lg">Hecho con amor por tu vida</p>
+            <p class="text-sm tracking-widest">03/11/2025</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- CONFIGURACIÓN DE FECHA ---
+        const startDate = new Date(2025, 10, 3); // 03 de Noviembre de 2025 (Noviembre es 10 en JS)
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+            const absDiff = Math.abs(diff);
+
+            const d = Math.floor(absDiff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((absDiff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((absDiff / 1000 / 60) % 60);
+            const s = Math.floor((absDiff / 1000) % 60);
+
+            document.getElementById('days').innerText = d;
+            document.getElementById('hours').innerText = h;
+            document.getElementById('minutes').innerText = m;
+            document.getElementById('seconds').innerText = s;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // --- FUEGOS ARTIFICIALES ---
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+
+        class Particle {
+            constructor(x, y, color, velocity) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.velocity = velocity;
+                this.alpha = 1;
+                this.friction = 0.95;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+            update() {
+                this.velocity.x *= this.friction;
+                this.velocity.y *= this.friction;
+                this.y += 0.05; // Gravedad suave
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.alpha -= 0.012;
+            }
+        }
+
+        function createExplosion(x, y) {
+            const colors = ['#ff0000', '#ff4d4d', '#ffd700', '#ffffff'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            for (let i = 0; i < 40; i++) {
+                const angle = (Math.PI * 2 / 40) * i;
+                const speed = Math.random() * 5 + 2;
+                particles.push(new Particle(x, y, color, {
+                    x: Math.cos(angle) * speed,
+                    y: Math.sin(angle) * speed
+                }));
+            }
+        }
+
+        function spawnAutoFirework() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * (canvas.height * 0.5);
+            createExplosion(x, y);
+        }
+
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.className = 'floating-heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, i) => {
+                if (p.alpha <= 0) particles.splice(i, 1);
+                else { p.update(); p.draw(); }
+            });
+            if (Math.random() < 0.05) spawnAutoFirework();
+            requestAnimationFrame(animate);
+        }
+
+        setInterval(createFloatingHeart, 500);
+        animate();
+
+        // Interactividad: Click para corazones
+        window.addEventListener('click', (e) => {
+            for (let i = 0; i < 10; i++) {
+                createExplosion(e.clientX, e.clientY);
+            }
+        });
+    </script>
+</body>
+</html>
