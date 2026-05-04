@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Feliz Mes, Amor de mi Vida</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
@@ -31,14 +30,8 @@
     }
 
     @keyframes pulse-glow {
-      from {
-        text-shadow: 0 0 15px var(--red-bright);
-        transform: scale(1);
-      }
-      to {
-        text-shadow: 0 0 35px var(--red-bright), 0 0 50px #ff4d4d;
-        transform: scale(1.02);
-      }
+      from { text-shadow: 0 0 15px var(--red-bright); transform: scale(1); }
+      to { text-shadow: 0 0 35px var(--red-bright), 0 0 50px #ff4d4d; transform: scale(1.02); }
     }
 
     canvas {
@@ -76,12 +69,8 @@
     }
 
     @keyframes waddle {
-      0%, 100% {
-        transform: rotate(-6deg) translateY(0);
-      }
-      50% {
-        transform: rotate(6deg) translateY(-10px);
-      }
+      0%, 100% { transform: rotate(-6deg) translateY(0); }
+      50% { transform: rotate(6deg) translateY(-10px); }
     }
 
     .glass-card {
@@ -126,14 +115,8 @@
     }
 
     @keyframes floatUp {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100vh) scale(1.5) rotate(360deg);
-        opacity: 0;
-      }
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-100vh) scale(1.5) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
@@ -142,13 +125,11 @@
 
   <canvas id="fireworksCanvas"></canvas>
 
-  <!-- Pingüinos bonitos -->
   <div class="penguin-container penguin-left">🐧❤️</div>
   <div class="penguin-container penguin-right">❤️🐧</div>
 
   <div class="content-layer">
 
-    <!-- Presentación -->
     <header class="min-h-screen flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-red-900/20 to-transparent">
       <div class="mb-4 text-6xl animate-pulse">❤️</div>
 
@@ -166,7 +147,6 @@
       </div>
     </header>
 
-    <!-- Contador por meses y días -->
     <section class="py-20 px-6">
       <div class="max-w-4xl mx-auto text-center">
         <h2 class="romantic-title text-4xl text-red-500 mb-10">
@@ -187,7 +167,6 @@
       </div>
     </section>
 
-    <!-- Galería -->
     <section class="py-20 px-6">
       <div class="max-w-5xl mx-auto">
         <h2 class="romantic-title text-4xl text-center text-red-500 mb-12">
@@ -205,9 +184,9 @@
 
           <div class="photo-frame transform rotate-2 mt-6">
             <div class="aspect-[4/5] bg-neutral-900 overflow-hidden mb-2 rounded-lg">
-              <img src="2IMG.jpg" alt="Foto 2" class="w-full h-full object-cover">
+              <video src="2IMG.mp4" controls muted playsinline loop class="w-full h-full object-cover"></video>
             </div>
-            <p class="text-center font-bold italic">Cada segundo vale</p>
+            <p class="text-center font-bold italic">Nuestro momento</p>
           </div>
 
           <div class="photo-frame transform -rotate-1">
@@ -224,14 +203,13 @@
             He guardado todos nuestros recuerdos aquí:
           </p>
 
-          <a href="TU_LINK_DE_DRIVE_AQUI" target="_blank" class="btn-drive inline-flex items-center px-10 py-5 rounded-full text-white font-bold text-xl">
+          <a href="https://drive.google.com/drive/folders/10IlgiPu1uG1ABfNVovQe6Q89wH1S8cmM?usp=sharing" target="_blank" class="btn-drive inline-flex items-center px-10 py-5 rounded-full text-white font-bold text-xl">
             Nuestras Fotos en Drive
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Final -->
     <section class="py-20 px-6 text-center">
       <div class="max-w-3xl mx-auto glass-card p-10 md:p-16">
         <h2 class="romantic-title text-5xl text-red-500 mb-6">
@@ -250,12 +228,10 @@
       <p class="text-lg">Hecho con amor por tu vida</p>
       <p class="text-sm tracking-widest">03/11/2025</p>
     </footer>
+
   </div>
 
   <script>
-    // CAMBIA AQUÍ LA FECHA
-    // Formato: new Date(año, mes, día)
-    // Recuerda: enero = 0, febrero = 1, marzo = 2, ... noviembre = 10
     const startDate = new Date(2025, 10, 3);
 
     function updateTimer() {
@@ -272,7 +248,6 @@
 
       if (anniversaryDate > now) {
         months--;
-
         anniversaryDate = new Date(
           startDate.getFullYear(),
           startDate.getMonth() + months,
@@ -291,7 +266,6 @@
     setInterval(updateTimer, 1000);
     updateTimer();
 
-    // Fuegos artificiales
     const canvas = document.getElementById('fireworksCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -366,7 +340,6 @@
       heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
 
       document.body.appendChild(heart);
-
       setTimeout(() => heart.remove(), 5000);
     }
 
